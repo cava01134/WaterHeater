@@ -10,5 +10,5 @@ Parts used:
 3. 5v Relay Switch
 4. Multiple Dupont wires
 ----
-
-An NTC(Negative Temperature Coefficient) resister is a variable resistor that responds to temperature changes.  The higher the temperature, the lower the resistance. 
+Project Details:
+Using the data gathered by the NTC resistor, using a MicroPython code to control the magnet contactor on the water heater with a 5V relay switch.
