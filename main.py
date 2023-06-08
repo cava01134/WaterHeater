@@ -10,7 +10,7 @@ relay =  Pin(4, Pin.OUT)
 # A WLAN interface must be active to send()/recv()
 sta = network.WLAN(network.STA_IF)  # Or network.AP_IF
 sta.active(True)
-wlan_mac = wlan_sta.config('mac')
+wlan_mac = sta.config('mac')
 print("MASTER_MAC:", wlan_mac) # Current Device Mac Address
 
 # Initiate ESPNow
@@ -22,18 +22,18 @@ e.send(peer, "Starting...")
 
 
 def read_ntc_temperature(x):
-    x = adc.read_u16() # Read the raw analog value
     temperature = 1 / (math.log(1/(65535/x - 1))/ 3850 + 1/298.15) - 273.15
     return temperature
 
 async def temperature_monitor():
     while True:
+        x = adc.read_u16() # Read the raw analog value
         temperature = read_ntc_temperature(x)
         print("Temperature: {:.2f} °C".format(temperature))
         if temperature <= 75:
             relay.value(1)
-            elif temperature >= 73:
-                relay.value(0)
+        elif temperature >= 73:
+            relay.value(0)
         e.send(peer, str(temperature))
         await asyncio.sleep(1)
 
